@@ -13,7 +13,7 @@
     <title>Movie Info -  Front End</title>
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-    <script src="js/angular.min.js"></script>s
+    <script src="js/angular.min.js"></script>
     <script src="js/main.js"></script>
 </head>
 <body ng-controller="movieController">
@@ -23,16 +23,21 @@
         </div>
     </div>
     </br></br></br></br>    
+   <!-- <h2><span>{{theTime}}</span></h2>-->
+    </br></br></br></br>    
     <div class="container">
         <div class="jumbotron">
                 <h3 class="text-center">Search for Any Movie</h3>
                 <form id="searchForm">
                     <input type="text" class="form-control" id="searchText" placeholder="Search Movies..." ng-model="searchText"/>
-                    <button ng-click="getMovies()">Search Movies</button>
+                    <button ng-click="getMovies()" ng-model="searchText">Search Movies</button>
                 </form>
+                <br/><br/>
+                <span> Search.... {{searchText}} </span>
             </div>
         </div>
     </div>
+    <hello></hello>
     </br></br></br></br>
     <div class="container">
         <div class="row" id="movies ">
@@ -47,10 +52,10 @@
                         <th>View details</th>
                     </tr>
                 </thead>
-                <tbody ng-repeat="item in movieResponse | limitTo:10">
+                <tbody ng-repeat="item in movieResponse | limitTo:10 | orderBy: item.id">
                     <tr>
-                        <td><img ng-src='http://image.tmdb.org/t/p/w45/{{item.poster_path}}'></td>
-                        <td>{{item.title}}</td>
+                        <td><img ng-src="{{movie_paths[$index]}}"></td>
+                        <td>{{item.title | uppercase}}</td>
                         <td>{{item.overview}}</td>
                         <td><button ng-click="getDetails(item.id)">Get Details</button></td>
                     </tr>
@@ -60,9 +65,9 @@
             <div class="col-sm-6" ng-if='movieDetails'>                
                     <div id="section-details">
                         <h3>{{movieDetails.title}}</h3>
-                        <img ng-src='http://image.tmdb.org/t/p/w154/{{movieDetails.poster_path}}'>
+                        <img ng-src="{{poster_path}}">
                         <p><span><b>Description: </b>{{movieDetails.overview}}</span></br></br>
-                           <span><b>Release-Date: </b>{{movieDetails.release_date}}</span>
+                           <span><b>Release-Date: </b>{{movieDetails.release_date | date}}</span>
                         </p>
                     </div>
                 </p>
